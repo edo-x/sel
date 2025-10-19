@@ -40,9 +40,9 @@ export class ExpressionBuilder implements Builder {
 	private exp: BuildExp;
 	private negate: boolean;
 
-	constructor(exp: BuildExp, negate?: boolean) {
+	constructor(exp: BuildExp) {
 		this.exp = exp;
-		this.negate = negate ?? false;
+		this.negate = false;
 	}
 
 	getNode(): Node {
@@ -51,8 +51,8 @@ export class ExpressionBuilder implements Builder {
 	}
 
 	get not(): ExpressionBuilder {
-		const builder = new ExpressionBuilder(this.exp, true);
-		return builder;
+		this.negate = true;
+		return this;
 	}
 
 	/*
@@ -250,6 +250,7 @@ export class ExpressionBuilder implements Builder {
 			escapeExp,
 			this.negate,
 		);
+		this.negate = false;
 		const builder = new LogicalBuilder(node);
 		return builder;
 	}
@@ -265,6 +266,7 @@ export class ExpressionBuilder implements Builder {
 			escapeExp,
 			this.negate,
 		);
+		this.negate = false;
 		const builder = new LogicalBuilder(node);
 		return builder;
 	}
@@ -279,6 +281,7 @@ export class ExpressionBuilder implements Builder {
 			null,
 			this.negate,
 		);
+		this.negate = false;
 		const builder = new LogicalBuilder(node);
 		return builder;
 	}
@@ -293,6 +296,7 @@ export class ExpressionBuilder implements Builder {
 			null,
 			this.negate,
 		);
+		this.negate = false;
 		const builder = new LogicalBuilder(node);
 		return builder;
 	}
@@ -307,6 +311,7 @@ export class ExpressionBuilder implements Builder {
 			null,
 			this.negate,
 		);
+		this.negate = false;
 		const builder = new LogicalBuilder(node);
 		return builder;
 	}
@@ -324,6 +329,7 @@ export class ExpressionBuilder implements Builder {
 			upperExp,
 			this.negate,
 		);
+		this.negate = false;
 		return new LogicalBuilder(node);
 	}
 
@@ -338,6 +344,7 @@ export class ExpressionBuilder implements Builder {
 			valueList,
 			this.negate,
 		);
+		this.negate = false;
 		return new LogicalBuilder(node);
 	}
 
@@ -352,6 +359,7 @@ export class ExpressionBuilder implements Builder {
 			valueExp,
 			this.negate,
 		);
+		this.negate = false;
 		return new LogicalBuilder(node);
 	}
 

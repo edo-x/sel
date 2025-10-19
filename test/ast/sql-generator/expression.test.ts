@@ -102,7 +102,7 @@ test('generate date literal', () => {
 
 test('generate value list', () => {
 	const date = new Date('2024-01-01T00:00:00Z');
-	const column = new ColumnReference('age', null);
+	const column = new ColumnReference('name', null);
 	const list = new ValueList([
 		42,
 		'hello',
@@ -118,17 +118,17 @@ test('generate value list', () => {
 
 	assert.equal(
 		sql,
-		'(42, \'hello\', TRUE, FALSE, NULL, \'2024-01-01T00:00:00.000Z\', "age")',
+		'(42, \'hello\', TRUE, FALSE, NULL, \'2024-01-01T00:00:00.000Z\', "name")',
 	);
 });
 
 test('generate paren expression', () => {
-	const column = new ColumnReference('age', null);
+	const column = new ColumnReference('name', null);
 	const paren = new ParenExpression(column);
 	const gen = new SqlGenerator();
 	const sql = gen.generate(paren);
 
-	assert.equal(sql, '("age")');
+	assert.equal(sql, '("name")');
 });
 
 test('generate unary negate expression', () => {
@@ -726,13 +726,13 @@ test('generate case expression', () => {
 });
 
 test('generate complex expression', () => {
-	const colAge = new ColumnReference('age', null);
+	const colPrice = new ColumnReference('price', null);
 	const colStatus = new ColumnReference('status', null);
 	const colExpire = new ColumnReference('is_expired', null);
-	const ageExp = new ComparisonExpression(
+	const priceExp = new ComparisonExpression(
 		ComparisonOperator.GreaterThan,
-		colAge,
-		new LiteralExpression(18),
+		colPrice,
+		new LiteralExpression(100),
 	);
 	const statusExp = new ComparisonExpression(
 		ComparisonOperator.Equal,
@@ -741,7 +741,7 @@ test('generate complex expression', () => {
 	);
 	const andExp = new LogicalExpression(
 		LogicalOperator.And,
-		ageExp,
+		priceExp,
 		statusExp,
 	);
 	const orExp = new LogicalExpression(
@@ -752,5 +752,5 @@ test('generate complex expression', () => {
 	const gen = new SqlGenerator();
 	const sql = gen.generate(orExp);
 
-	assert.equal(sql, '"age" > 18 AND "status" = \'active\' OR "is_expired" IS TRUE');
+	assert.equal(sql, '"price" > 100 AND "status" = \'active\' OR "is_expired" IS TRUE');
 });
