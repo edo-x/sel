@@ -360,7 +360,6 @@ export class JoinExpression extends Node {
 	readonly type: JoinType;
 	readonly left: TableExpression;
 	readonly right: TableExpression;
-
 	readonly condition: Expression | null;
 
 	constructor(
